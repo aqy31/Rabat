@@ -22,26 +22,22 @@
         @font-face { font-family: 'AssyrianFont'; src: url('Assyria.ttf') format('truetype'); font-display: swap; }
 
         body { font-family: "Palatino Linotype", "Book Antiqua", Palatino, "Times New Roman", serif; background-color: var(--paper-bg); color: var(--ink-main); margin: 0; padding: 0; line-height: 1.6; }
-        
         header { background-color: var(--paper-bg); padding: 40px 15px 25px; text-align: center; border-bottom: 1px solid var(--border-color); }
         header h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--ink-main); font-weight: normal; }
         header p { color: var(--ink-muted); font-size: clamp(0.9rem, 2vw, 1.1rem); margin-top: 10px; font-style: italic; }
-        
         .container { max-width: 1300px; margin: 30px auto; padding: 0 15px; }
-        
         .search-section { margin-bottom: 30px; text-align: center; position: sticky; top: 15px; z-index: 100; }
         .search-input { width: 100%; max-width: 800px; padding: 14px 20px; font-size: 1rem; font-family: inherit; border: 1px solid var(--border-color); border-radius: 4px; background-color: var(--card-bg); color: var(--ink-main); outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.06); transition: all 0.3s; }
         .search-input:focus { border-color: var(--accent-academic); box-shadow: 0 4px 20px rgba(94, 33, 36, 0.15); }
         .counter-text { margin-top: 8px; color: var(--ink-pale); font-size: 0.9rem; font-weight: bold; }
         
-        /* التجاوب (Responsive Grid) */
         .dictionary-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        @media (min-width: 768px) { .dictionary-grid { grid-template-columns: repeat(2, 1fr); } } /* للآيباد */
-        @media (min-width: 1200px) { .dictionary-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; } } /* للابتوب (عرض أوسع) */
+        @media (min-width: 768px) { .dictionary-grid { grid-template-columns: repeat(2, 1fr); } } 
+        @media (min-width: 1200px) { .dictionary-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; } }
 
         .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; overflow: hidden; }
         .card:hover { border-color: var(--ink-pale); transform: translateY(-2px); }
-        @media (min-width: 600px) { .card { flex-direction: row; } } /* تحويل لجانبي على الشاشات الأكبر من الموبايل */
+        @media (min-width: 600px) { .card { flex-direction: row; } }
 
         .visual-column { padding: 20px 15px; border-bottom: 1px solid var(--border-color); display: flex; flex-direction: row; justify-content: space-around; gap: 15px; background-color: #faf9f6; }
         @media (min-width: 600px) { .visual-column { flex-direction: column; border-bottom: none; border-left: 1px solid var(--border-color); min-width: 140px; justify-content: center; } }
@@ -54,12 +50,10 @@
         .variant-label { font-size: 0.65rem; color: var(--ink-pale); text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; }
         
         .content-column { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
-        
         .header-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
         .meta-item { font-size: 0.9rem; color: var(--accent-academic); font-weight: bold; background: #f0ebe1; padding: 2px 8px; border-radius: 3px; }
         .meta-label { color: var(--ink-muted); font-size: 0.8rem; text-transform: uppercase; }
 
-        /* قسم القيم الصوتية (Phonetics) */
         .phonetics-box { margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
         .phonetics-label { font-size: 0.75rem; color: var(--accent-academic); font-weight: bold; margin-left: 5px; }
         .phonetic-tag { background-color: var(--phonetic-bg); color: var(--phonetic-text); padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-family: "Times New Roman", serif; font-weight: bold; letter-spacing: 1px; border: 1px solid #c9d6e2; }
@@ -100,7 +94,7 @@
 </div>
 
 <script>
-    // الهيكلية: [العلامة, لابات, الصفحة, السومري, الأكدي, المعنى, [[المثال, اللفظ, الترجمة]], العصور, القيم الصوتية (مرتبة)]
+    // المصفوفة المضغوطة لتفادي تجاوز الحد المسموح وحماية الكود من الانهيار
     const rawData = [
         ["𒀸","1","42","aš","ištēn, ina","واحد، في، إلى.",[["𒀸 𒌋𒅗","ina muhhi","على، فوق"]],"سومري, بابلي قديم, آشوري حديث","aš, rum, dil, ru"],
         ["𒄬","2","42","hal","zâzu, pīru","تقسيم، توزيع، عرافة.",[["𒇽 𒄬","bārû","عرّاف، كاهن"]],"سومري, بابلي قديم, آشوري حديث","hal, min"],
@@ -118,7 +112,7 @@
         ["𒇷","42","58","li","li","مقطع صوتي (li). شجر العرعر.",[["𒄑 𒇷","burāšu","شجر العرعر"]],"سومري, بابلي قديم, آشوري حديث","li, le"],
         ["𒌅","43","58","tu","tu, erēbu","دخول. مقطع صوتي (tu).",[["𒌅 𒊏","erēbu","دخول"]],"سومري, بابلي قديم, آشوري حديث","tu, tur"],
         ["𒌚","52","60","iti, itud","warhu","شهر، دورة القمر.",[["𒌚 𒁈","Nisannu","شهر نيسان"]],"سومري, بابلي قديم, آشوري حديث","iti, itud, araha"],
-        ["𒆷","55","62","la","la, lā","لا (أداة نفي)، مقطع صوتي (la).",[["𒆷 𒀀","lā","لا"]],"سومري, بابلي قديم, آشوري حديث"],
+        ["𒆷","55","62","la","la, lā","لا (أداة نفي)، مقطع صوتي (la).",[["𒆷 𒀀","lā","لا"]],"سومري, بابلي قديم, آشوري حديث","la, lā"],
         ["𒈤","60","64","mah","ṣīru, rabû","عظيم، سامي، جليل.",[["𒂍 𒈤","Emah","المعبد العظيم"]],"سومري, بابلي قديم, آشوري حديث","mah, tiz"],
         ["𒈬","61","64","mu","šumu, šattu","اسم، سنة، ذكرى.",[["𒈬 𒀭 𒈾","šattu","سنة"]],"سومري, بابلي قديم, آشوري حديث","mu, šum"],
         ["𒋡","62","66","sìla","qû","مكيال سعة (سيلا).",[["𒁹 𒋡","1 sìla","سيلا واحدة"]],"سومري, بابلي قديم, آشوري حديث","sìla, qa"],
@@ -222,7 +216,7 @@
         ["𒅈","455","202","ar","ar","مقطع صوتي (ar).",[["𒅈 𒊏 𒆪","arraku","طويل جداً"]],"سومري, بابلي قديم, آشوري حديث","ar, rí"],
         ["𒅇","456","202","u₃","u","و (حرف عطف).",[["𒅇 𒈪","u mūšu","والليل"]],"سومري, بابلي قديم, آشوري حديث","u₃"],
         ["𒆠","461","204","ki","erṣetu","أرض، مكان، منطقة. دالة للمدن.",[["𒆍 𒀭 𒊏 𒆠","Bābili","بابل"]],"سومري, بابلي قديم, آشوري حديث","ki, qi, ke"],
-        [" آف","461a","204","ki-en-gi","Šumeru","بلاد سومر.",[["𒆠 𒂗 𒄀","Šumeru","سومر"]],"سومري, بابلي قديم, آشوري حديث","ki-en-gi"],
+        ["𒆠𒂗𒄀","461a","204","ki-en-gi","Šumeru","بلاد سومر.",[["𒆠 𒂗 𒄀","Šumeru","سومر"]],"سومري, بابلي قديم, آشوري حديث","ki-en-gi"],
         ["𒁲","465","206","di, silim","dīnu, šalāmu","سلام، عافية، حكم قانوني.",[["𒁲 𒈬","šulmu","سلام"]],"سومري, بابلي قديم, آشوري حديث","di, silim, šal"],
         ["𒆬","468","208","kù","ellu, kaspu","نقي، مقدس، فضة.",[["𒆬 𒌓","kaspu","فضة"]],"سومري, بابلي قديم, آشوري حديث","kù, guš"],
         ["𒅁","480","210","ib","ib, ip","مقطع صوتي (ib, ip).",[["𒅁 𒊭 𒆪","ipšāku","لقد صَنَعْتُ"]],"سومري, بابلي قديم, آشوري حديث","ib, ip"],
@@ -234,7 +228,7 @@
         ["𒐋","485","210","aš","šišši","الرقم 6.",[["𒐋 𒈬 𒈨𒌍","šišši šanāti","ست سنوات"]],"سومري, بابلي قديم, آشوري حديث","aš"],
         ["𒐌","486","210","imin","sebī","الرقم 7.",[["𒐌 𒀭 𒈨𒌍","sebī ilānu","الآلهة السبعة"]],"سومري, بابلي قديم, آشوري حديث","imin"],
         ["𒐍","487","210","ussu","samānē","الرقم 8.",[["𒐍 𒇽 𒈨𒌍","samānē awīlū","ثمانية رجال"]],"سومري, بابلي قديم, آشوري حديث","ussu"],
-        ["дели","488","210","ilimmu","tišē","الرقم 9.",[["дели 𒌓","tišē ūmū","تسعة أيام"]],"سومري, بابلي قديم, آشوري حديث","ilimmu"],
+        ["лим","488","210","ilimmu","tišē","الرقم 9.",[["лим 𒌓","tišē ūmū","تسعة أيام"]],"سومري, بابلي قديم, آشوري حديث","ilimmu"],
         ["𒈨","532","214","me","me'atu, parṣu","مائة (100). شعائر إلهية.",[["𒈫 𒈨","šinā me'atu","مائتان"]],"سومري, بابلي قديم, آشوري حديث","me, mi, sip"],
         ["ോളിക","532a","212","šul","eṭlu","شاب، قوي.",[["ോളിക 𒆗","eṭlu","شاب قوي"]],"سومري, بابلي قديم, آشوري حديث","šul, dun"],
         ["𒈨𒌍","533","214","meš","meš","علامة الجمع.",[["𒈗 𒈨𒌍","šarrū","ملوك"]],"سومري, بابلي قديم, آشوري حديث","meš, eš"],
@@ -251,147 +245,155 @@
         ["𒍝","585","228","za, na₄","abnu, za","حجر. مقطع (za, ṣa).",[["𒍝 𒆳 𒊏","aban šadî","حجر الجبل"]],"سومري, بابلي قديم, آشوري حديث","za, ṣa, sà"],
         ["𒄩","586","228","ku₆, ha","nūnu, ha","سمكة. مقطع (ha).",[["𒄩 𒆷","zittu","نصيب/حصة"]],"سومري, بابلي قديم, آشوري حديث","ha, ku₆, peš"],
         ["𒃻","597","232","níg, gar","mimma, šakānu","شيء. وضع، جعل.",[["𒃻 𒉡","šaknu","حاكم/منصوب"]],"سومري, بابلي قديم, آشوري حديث","gar, níg, šá"],
-        [" تت","600","234","dili","ištēn","واحد.",[[" تت 𒈠","dilima","مقطع"]],"سومري, بابلي قديم, آشوري حديث","dili, aš"],
-        ["  اوف","601","234","u","u","عشرة.",[[" 𒌋 𒈨𒌍","ešer","عشرة"]],"سومري, بابلي قديم, آشوري حديث","u"],
-        [" 𒀀","602","234","a","mû","ماء.",[["𒀀 𒈨𒌍","mû","مياه"]],"سومري, بابلي قديم, آشوري حديث","a"],
-        [" 𒀭","603","234","an","šamû","سماء.",[["𒀭 𒂊","šamê","سماوات"]],"سومري, بابلي قديم, آشوري حديث","an"],
-        [" 𒂗","604","234","en","bēlu","سيد.",[["𒂗 𒈨𒌍","bēlū","سادة"]],"سومري, بابلي قديم, آشوري حديث","en"],
-        [" 𒆠","605","234","ki","erṣetu","أرض.",[["𒆠 𒁴","erṣeti","أرض"]],"سومري, بابلي قديم, آشوري حديث","ki"],
-        [" 𒇽","606","234","lu","awīlu","رجل.",[["𒇽 𒈨𒌍","awīlū","رجال"]],"سومري, بابلي قديم, آشوري حديث","lu"],
-        [" 𒃲","607","234","gal","rabû","عظيم.",[["𒃲 𒈨𒌍","rabûti","عظماء"]],"سومري, بابلي قديم, آشوري حديث","gal"],
-        [" 𒌉","608","234","dumu","māru","ابن.",[["𒌉 𒈨𒌍","mārū","أبناء"]],"سومري, بابلي قديم, آشوري حديث","dumu"],
-        [" 𒊩","609","234","munus","sinništu","امرأة.",[["𒊩 𒈨𒌍","sinnišātu","نساء"]],"سومري, بابلي قديم, آشوري حديث","munus"],
-        [" 𒂍","610","234","e","bītu","بيت.",[["𒂍 𒈨𒌍","bītātu","بيوت"]],"سومري, بابلي قديم, آشوري حديث","e"],
-        [" 𒌷","611","234","uru","ālu","مدينة.",[["𒌷 𒈨𒌍","ālānu","مدن"]],"سومري, بابلي قديم, آشوري حديث","uru"],
-        [" 𒆳","612","234","kur","mātu","بلاد.",[["𒆳 𒈨𒌍","mātātu","بلدان"]],"سومري, بابلي قديم, آشوري حديث","kur"],
-        [" 𒈗","613","234","lugal","šarru","ملك.",[["𒈗 𒈨𒌍","šarrāni","ملوك"]],"سومري, بابلي قديم, آشوري حديث","lugal"],
-        [" 𒌓","614","234","ud","ūmu","يوم.",[["𒌓 𒈨𒌍","ūmū","أيام"]],"سومري, بابلي قديم, آشوري حديث","ud"],
-        [" 𒈪","615","234","mi","mūšu","ليل.",[["𒈪 𒈨𒌍","mūšānu","ليالي"]],"سومري, بابلي قديم, آشوري حديث","mi"],
-        [" 𒈬","616","234","mu","šattu","سنة.",[["𒈬 𒈨𒌍","šanāti","سنوات"]],"سومري, بابلي قديم, آشوري حديث","mu"],
-        [" 𒋗","617","234","šu","qātu","يد.",[["𒋗 𒈫","qātā","يدان"]],"سومري, بابلي قديم, آشوري حديث","šu"],
-        [" 𒄊","618","234","gir","šēpu","قدم.",[["𒄊 𒈫","šēpā","قدمان"]],"سومري, بابلي قديم, آشوري حديث","gir"],
-        [" 𒅆","619","234","igi","īnu","عين.",[["𒅆 𒈫","īnā","عينان"]],"سومري, بابلي قديم, آشوري حديث","igi"],
-        [" 𒉿","620","234","pi","uznu","أذن.",[["𒉿 𒈫","uznā","أذنان"]],"سومري, بابلي قديم, آشوري حديث","pi"],
-        [" 𒅗","621","234","ka","pû","فم.",[["𒅗 𒈨𒌍","pānū","أفواه"]],"سومري, بابلي قديم, آشوري حديث","ka"],
-        [" 𒊮","622","234","ša","libbu","قلب.",[["𒊮 𒁉","libbašu","قلبه"]],"سومري, بابلي قديم, آشوري حديث","ša"],
-        [" 𒊕","623","234","sag","rēšu","رأس.",[["𒊕 𒋢","rēssu","رأسه"]],"سومري, بابلي قديم, آشوري حديث","sag"],
-        [" 𒄑","624","234","giš","iṣu","خشب.",[["𒄑 𒈨𒌍","iṣṣū","أخشاب"]],"سومري, بابلي قديم, آشوري حديث","giš"],
-        [" 𒍏","625","234","uruda","erû","نحاس.",[["𒍏 𒈨𒌍","erû","نحاسيات"]],"سومري, بابلي قديم, آشوري حديث","uruda"],
-        [" 𒆬","626","234","ku","kaspu","فضة.",[["𒆬 𒌓","kaspu","فضة"]],"سومري, بابلي قديم, آشوري حديث","ku"],
-        ["  золо","627","234","guškin","hurāṣu","ذهب.",[["𒆬 𒄀","hurāṣu","ذهب"]],"سومري, بابلي قديم, آشوري حديث","guškin"],
-        [" 𒀭 𒌓","628","234","utu","šamaš","شمس.",[["𒀭 𒌓","šamaš","إله الشمس"]],"سومري, بابلي قديم, آشوري حديث","utu"],
-        [" 𒀭 𒂗 𒍪","629","234","suen","sîn","قمر.",[["𒀭 𒂗 𒍪","sîn","إله القمر"]],"سومري, بابلي قديم, آشوري حديث","suen"],
-        [" 𒀭 𒅎","630","234","iškur","adad","عاصفة.",[["𒀭 𒅎","adad","إله العاصفة"]],"سومري, بابلي قديم, آشوري حديث","iškur"],
-        [" 𒀭 𒀝","631","234","ag","nabû","نابو.",[["𒀭 𒀝","nabû","الإله نابو"]],"سومري, بابلي قديم, آشوري حديث","ag"],
-        [" 𒀭 𒀫 𒌓","632","234","amar-utu","marduk","مردوخ.",[["𒀭 𒀫 𒌓","marduk","الإله مردوخ"]],"سومري, بابلي قديم, آشوري حديث","amar-utu"],
-        [" 𒀭 𒌋 𒄥","633","234","nergal","nergal","نرجال.",[["𒀭 𒌋 𒄥","nergal","الإله نرجال"]],"سومري, بابلي قديم, آشوري حديث","nergal"],
-        [" 𒀭 𒈹","634","234","inanna","ištar","عشتار.",[["𒀭 𒈹","ištar","الإلهة عشتار"]],"سومري, بابلي قديم, آشوري حديث","inanna"],
-        [" 𒀭 𒊩𒌆 𒆤","635","234","ninlil","ninlil","نينليل.",[["𒀭 𒊩𒌆 𒆤","ninlil","الإلهة نينليل"]],"سومري, بابلي قديم, آشوري حديث","ninlil"],
-        [" 𒀭 𒀀 𒉣 𒈾 𒆠","636","234","anunnaki","anunnakku","أنوناكي.",[["𒀭 𒀀 𒉣 𒈾 𒆠","anunnakku","الآلهة الأنوناكي"]],"سومري, بابلي قديم, آشوري حديث","anunnaki"],
-        [" 𒀭 𒄿 𒄀 𒄀","637","234","igigi","igiggu","إيجيجي.",[["𒀭 𒄿 𒄀 𒄀","igiggu","الآلهة الإيجيجي"]],"سومري, بابلي قديم, آشوري حديث","igigi"],
-        [" 𒀀 𒉿 லும்","638","234","awilum","awīlu","رجل حر.",[["𒀀 𒉿 லும்","awīlu","رجل حر"]],"سومري, بابلي قديم, آشوري حديث","awilum"],
-        [" WARD","639","234","wardum","wardu","عبد.",[["WARD","wardu","عبد/خادم"]],"سومري, بابلي قديم, آشوري حديث","wardum"],
-        [" 𒀀 𒈨 𒇻","640","234","amelu","amēlu","رجل/شخص.",[["𒀀 𒈨 𒇻","amēlu","شخص"]],"سومري, بابلي قديم, آشوري حديث","amelu"],
-        [" 𒁍 𒊭","641","234","puša","pūša","فمها.",[["𒁍 𒊭","pūša","فمها"]],"سومري, بابلي قديم, آشوري حديث","puša"],
-        [" 𒉺 𒉌","642","234","pani","pāni","وجه/أمام.",[["𒉺 𒉌","pāni","أمام"]],"سومري, بابلي قديم, آشوري حديث","pani"],
-        [" 𒂊 𒉿 𒋗","643","234","epišu","epēšu","عمل/صنع.",[["𒂊 𒉿 𒋗","epēšu","صنع"]],"سومري, بابلي قديم, آشوري حديث","epišu"]
+        ["𒀸","600","234","dili","ištēn","واحد.",[["𒀸 𒈠","dilima","مقطع"]],"سومري, بابلي قديم, آشوري حديث","dili, aš"],
+        ["𒌋","601","234","u","u","عشرة.",[["𒌋 𒈨𒌍","ešer","عشرة"]],"سومري, بابلي قديم, آشوري حديث","u"],
+        ["𒀀","602","234","a","mû","ماء.",[["𒀀 𒈨𒌍","mû","مياه"]],"سومري, بابلي قديم, آشوري حديث","a"],
+        ["𒀭","603","234","an","šamû","سماء.",[["𒀭 𒂊","šamê","سماوات"]],"سومري, بابلي قديم, آشوري حديث","an"],
+        ["𒂗","604","234","en","bēlu","سيد.",[["𒂗 𒈨𒌍","bēlū","سادة"]],"سومري, بابلي قديم, آشوري حديث","en"],
+        ["𒆠","605","234","ki","erṣetu","أرض.",[["𒆠 𒁴","erṣeti","أرض"]],"سومري, بابلي قديم, آشوري حديث","ki"],
+        ["𒇽","606","234","lu","awīlu","رجل.",[["𒇽 𒈨𒌍","awīlū","رجال"]],"سومري, بابلي قديم, آشوري حديث","lu"],
+        ["𒃲","607","234","gal","rabû","عظيم.",[["𒃲 𒈨𒌍","rabûti","عظماء"]],"سومري, بابلي قديم, آشوري حديث","gal"],
+        ["𒌉","608","234","dumu","māru","ابن.",[["𒌉 𒈨𒌍","mārū","أبناء"]],"سومري, بابلي قديم, آشوري حديث","dumu"],
+        ["𒊩","609","234","munus","sinništu","امرأة.",[["𒊩 𒈨𒌍","sinnišātu","نساء"]],"سومري, بابلي قديم, آشوري حديث","munus"],
+        ["𒂍","610","234","e","bītu","بيت.",[["𒂍 𒈨𒌍","bītātu","بيوت"]],"سومري, بابلي قديم, آشوري حديث","e"],
+        ["𒌷","611","234","uru","ālu","مدينة.",[["𒌷 𒈨𒌍","ālānu","مدن"]],"سومري, بابلي قديم, آشوري حديث","uru"],
+        ["𒆳","612","234","kur","mātu","بلاد.",[["𒆳 𒈨𒌍","mātātu","بلدان"]],"سومري, بابلي قديم, آشوري حديث","kur"],
+        ["𒈗","613","234","lugal","šarru","ملك.",[["𒈗 𒈨𒌍","šarrāni","ملوك"]],"سومري, بابلي قديم, آشوري حديث","lugal"],
+        ["𒌓","614","234","ud","ūmu","يوم.",[["𒌓 𒈨𒌍","ūmū","أيام"]],"سومري, بابلي قديم, آشوري حديث","ud"],
+        ["𒈪","615","234","mi","mūšu","ليل.",[["𒈪 𒈨𒌍","mūšānu","ليالي"]],"سومري, بابلي قديم, آشوري حديث","mi"],
+        ["𒈬","616","234","mu","šattu","سنة.",[["𒈬 𒈨𒌍","šanāti","سنوات"]],"سومري, بابلي قديم, آشوري حديث","mu"],
+        ["𒋗","617","234","šu","qātu","يد.",[["𒋗 𒈫","qātā","يدان"]],"سومري, بابلي قديم, آشوري حديث","šu"],
+        ["𒄊","618","234","gir","šēpu","قدم.",[["𒄊 𒈫","šēpā","قدمان"]],"سومري, بابلي قديم, آشوري حديث","gir"],
+        ["𒅆","619","234","igi","īnu","عين.",[["𒅆 𒈫","īnā","عينان"]],"سومري, بابلي قديم, آشوري حديث","igi"],
+        ["𒉿","620","234","pi","uznu","أذن.",[["𒉿 𒈫","uznā","أذنان"]],"سومري, بابلي قديم, آشوري حديث","pi"],
+        ["𒅗","621","234","ka","pû","فم.",[["𒅗 𒈨𒌍","pānū","أفواه"]],"سومري, بابلي قديم, آشوري حديث","ka"],
+        ["𒊮","622","234","ša","libbu","قلب.",[["𒊮 𒁉","libbašu","قلبه"]],"سومري, بابلي قديم, آشوري حديث","ša"],
+        ["𒊕","623","234","sag","rēšu","رأس.",[["𒊕 𒋢","rēssu","رأسه"]],"سومري, بابلي قديم, آشوري حديث","sag"],
+        ["𒄑","624","234","giš","iṣu","خشب.",[["𒄑 𒈨𒌍","iṣṣū","أخشاب"]],"سومري, بابلي قديم, آشوري حديث","giš"],
+        ["𒍏","625","234","uruda","erû","نحاس.",[["𒍏 𒈨𒌍","erû","نحاسيات"]],"سومري, بابلي قديم, آشوري حديث","uruda"],
+        ["𒆬","626","234","ku","kaspu","فضة.",[["𒆬 𒌓","kaspu","فضة"]],"سومري, بابلي قديم, آشوري حديث","ku"],
+        ["𒆬𒄀","627","234","guškin","hurāṣu","ذهب.",[["𒆬 𒄀","hurāṣu","ذهب"]],"سومري, بابلي قديم, آشوري حديث","guškin"],
+        ["𒀭𒌓","628","234","utu","šamaš","شمس.",[["𒀭 𒌓","šamaš","إله الشمس"]],"سومري, بابلي قديم, آشوري حديث","utu"],
+        ["𒀭𒂗𒍪","629","234","suen","sîn","قمر.",[["𒀭 𒂗 𒍪","sîn","إله القمر"]],"سومري, بابلي قديم, آشوري حديث","suen"],
+        ["𒀭𒅎","630","234","iškur","adad","عاصفة.",[["𒀭 𒅎","adad","إله العاصفة"]],"سومري, بابلي قديم, آشوري حديث","iškur"],
+        ["𒀭𒀝","631","234","ag","nabû","نابو.",[["𒀭 𒀝","nabû","الإله نابو"]],"سومري, بابلي قديم, آشوري حديث","ag"],
+        ["𒀭𒀫𒌓","632","234","amar-utu","marduk","مردوخ.",[["𒀭 𒀫 𒌓","marduk","الإله مردوخ"]],"سومري, بابلي قديم, آشوري حديث","amar-utu"],
+        ["𒀭𒌋𒄥","633","234","nergal","nergal","نرجال.",[["𒀭 𒌋 𒄥","nergal","الإله نرجال"]],"سومري, بابلي قديم, آشوري حديث","nergal"],
+        ["𒀭𒈹","634","234","inanna","ištar","عشتار.",[["𒀭 𒈹","ištar","الإلهة عشتار"]],"سومري, بابلي قديم, آشوري حديث","inanna"],
+        ["𒀭𒊩𒌆𒆤","635","234","ninlil","ninlil","نينليل.",[["𒀭 𒊩𒌆 𒆤","ninlil","الإلهة نينليل"]],"سومري, بابلي قديم, آشوري حديث","ninlil"],
+        ["𒀭𒀀𒉣𒈾𒆠","636","234","anunnaki","anunnakku","أنوناكي.",[["𒀭 𒀀 𒉣 𒈾 𒆠","anunnakku","الآلهة الأنوناكي"]],"سومري, بابلي قديم, آشوري حديث","anunnaki"],
+        ["𒀭𒄿𒄀𒄀","637","234","igigi","igiggu","إيجيجي.",[["𒀭 𒄿 𒄀 𒄀","igiggu","الآلهة الإيجيجي"]],"سومري, بابلي قديم, آشوري حديث","igigi"],
+        ["𒀀𒉿லும்","638","234","awilum","awīlu","رجل حر.",[["𒀀 𒉿 லும்","awīlu","رجل حر"]],"سومري, بابلي قديم, آشوري حديث","awilum"],
+        ["𒀴","639","234","wardum","wardu","عبد.",[["𒀴","wardu","عبد/خادم"]],"سومري, بابلي قديم, آشوري حديث","wardum"],
+        ["𒇽","640","234","amelu","amēlu","رجل/شخص.",[["𒇽","amēlu","شخص"]],"سومري, بابلي قديم, آشوري حديث","amelu"],
+        ["𒁍𒊭","641","234","puša","pūša","فمها.",[["𒁍 𒊭","pūša","فمها"]],"سومري, بابلي قديم, آشوري حديث","puša"],
+        ["𒉺𒉌","642","234","pani","pāni","وجه/أمام.",[["𒉺 𒉌","pāni","أمام"]],"سومري, بابلي قديم, آشوري حديث","pani"],
+        ["𒂊𒉿𒋗","643","234","epišu","epēšu","عمل/صنع.",[["𒂊 𒉿 𒋗","epēšu","صنع"]],"سومري, بابلي قديم, آشوري حديث","epišu"]
     ];
 
-    const libraryData = rawData.map(item => ({
-        sign: item[0], labat: item[1], page: item[2], sumerian: item[3], akkadian: item[4], meaning: item[5], 
-        words: item[6].map(w => `<div class='vocab-word'><span class='vocab-cuneiform'>${w[0]}</span> - <span class='vocab-trans'>${w[1]}</span> <span class='vocab-arab'>(${w[2]})</span></div>`).join(''),
-        periods: item[7].split(', '),
-        phonetics: item[8].split(', ')
-    }));
+    try {
+        const libraryData = rawData.map(item => ({
+            sign: (item[0] || "").trim(),
+            labat: (item[1] || "").trim(),
+            page: (item[2] || "").trim(),
+            sumerian: (item[3] || "").trim(),
+            akkadian: (item[4] || "").trim(),
+            meaning: (item[5] || "").trim(),
+            words: (Array.isArray(item[6]) ? item[6] : []).map(w => 
+                `<div class='vocab-word'><span class='vocab-cuneiform'>${(w[0] || "").trim()}</span> - <span class='vocab-trans'>${(w[1] || "").trim()}</span> <span class='vocab-arab'>(${w[2] || ""})</span></div>`
+            ).join(''),
+            periods: typeof item[7] === 'string' ? item[7].split(',').map(s=>s.trim()) : [],
+            phonetics: typeof item[8] === 'string' ? item[8].split(',').map(s=>s.trim()) : []
+        }));
 
-    const grid = document.getElementById('mainGrid');
-    const counter = document.getElementById('counter');
+        const grid = document.getElementById('mainGrid');
+        const counter = document.getElementById('counter');
 
-    function renderLibrary(data) {
-        grid.innerHTML = '';
-        data.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            
-            // إنشاء Tags للعصور
-            const periodTags = item.periods.map(p => `<span class="period-tag">${p}</span>`).join('');
-            
-            // إنشاء Tags للقيم الصوتية
-            const phoneticTags = item.phonetics.map(p => `<span class="phonetic-tag">${p.trim()}</span>`).join('');
+        function renderLibrary(data) {
+            grid.innerHTML = '';
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                const periodTags = item.periods.map(p => `<span class="period-tag">${p}</span>`).join('');
+                const phoneticTags = item.phonetics.map(p => `<span class="phonetic-tag">${p}</span>`).join('');
 
-            card.innerHTML = `
-                <div class="visual-column">
-                    <div class="sign-variant">
-                        <div class="cuneiform sumerian-style">${item.sign}</div>
-                        <span class="variant-label">سومري قديم</span>
-                    </div>
-                    <div class="sign-variant">
-                        <div class="cuneiform babylonian-style">${item.sign}</div>
-                        <span class="variant-label">بابلي قديم</span>
-                    </div>
-                    <div class="sign-variant">
-                        <div class="cuneiform assyrian-style">${item.sign}</div>
-                        <span class="variant-label">آشوري حديث</span>
-                    </div>
-                </div>
-                <div class="content-column">
-                    <div class="header-meta">
-                        <div><span class="meta-label">Labat:</span> <span class="meta-item">${item.labat}</span></div>
-                        <div><span class="meta-label">Page:</span> <span class="meta-item">${item.page}</span></div>
-                    </div>
-                    
-                    <div class="phonetics-box">
-                        <span class="phonetics-label">القيم الصوتية:</span>
-                        ${phoneticTags}
-                    </div>
-
-                    <div class="transliteration-box">
-                        <div class="trans-row">
-                            <span class="sum-val">${item.sumerian}</span>
-                            <span class="lang-label">Sumerian</span>
+                card.innerHTML = `
+                    <div class="visual-column">
+                        <div class="sign-variant">
+                            <div class="cuneiform sumerian-style">${item.sign}</div>
+                            <span class="variant-label">سومري قديم</span>
                         </div>
-                        <div class="trans-row">
-                            <span class="akk-val">${item.akkadian}</span>
-                            <span class="lang-label">Akkadian</span>
+                        <div class="sign-variant">
+                            <div class="cuneiform babylonian-style">${item.sign}</div>
+                            <span class="variant-label">بابلي قديم</span>
+                        </div>
+                        <div class="sign-variant">
+                            <div class="cuneiform assyrian-style">${item.sign}</div>
+                            <span class="variant-label">آشوري حديث</span>
                         </div>
                     </div>
-                    
-                    <div class="meaning-box">
-                        <span class="section-title">المعنى الدلالي</span>
-                        ${item.meaning}
-                    </div>
-                    
-                    <div class="vocabulary-box">
-                        <span class="section-title">أمثلة شائعة (Vocabulary)</span>
-                        ${item.words}
-                    </div>
-                    
-                    <div class="periods-box">
-                        <span class="section-title">عصور التدوين (Attestations)</span>
-                        <div class="period-tags">${periodTags}</div>
-                    </div>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-        counter.innerText = `تم عرض ${data.length} علامة مسمارية`;
-    }
+                    <div class="content-column">
+                        <div class="header-meta">
+                            <div><span class="meta-label">Labat:</span> <span class="meta-item">${item.labat}</span></div>
+                            <div><span class="meta-label">Page:</span> <span class="meta-item">${item.page}</span></div>
+                        </div>
+                        
+                        <div class="phonetics-box">
+                            <span class="phonetics-label">القيم الصوتية:</span>
+                            ${phoneticTags}
+                        </div>
 
-    function filterData() {
-        const query = document.getElementById('searchInput').value.toLowerCase().trim();
-        const filtered = libraryData.filter(item => {
-            return item.labat === query || 
-                   item.page === query || 
-                   item.sumerian.toLowerCase().includes(query) || 
-                   item.akkadian.toLowerCase().includes(query) || 
-                   item.meaning.includes(query) || 
-                   item.phonetics.some(p => p.includes(query)) ||
-                   item.sign === query;
-        });
-        renderLibrary(filtered);
-    }
+                        <div class="transliteration-box">
+                            <div class="trans-row">
+                                <span class="sum-val">${item.sumerian}</span>
+                                <span class="lang-label">Sumerian</span>
+                            </div>
+                            <div class="trans-row">
+                                <span class="akk-val">${item.akkadian}</span>
+                                <span class="lang-label">Akkadian</span>
+                            </div>
+                        </div>
+                        
+                        <div class="meaning-box">
+                            <span class="section-title">المعنى الدلالي</span>
+                            ${item.meaning}
+                        </div>
+                        
+                        <div class="vocabulary-box">
+                            <span class="section-title">أمثلة شائعة (Vocabulary)</span>
+                            ${item.words}
+                        </div>
+                        
+                        <div class="periods-box">
+                            <span class="section-title">عصور التدوين (Attestations)</span>
+                            <div class="period-tags">${periodTags}</div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            counter.innerText = `يتم عرض ${data.length} علامة مسمارية (تم التحميل بنجاح)`;
+        }
 
-    window.onload = () => renderLibrary(libraryData);
+        function filterData() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = libraryData.filter(item => {
+                return item.labat === query || 
+                       item.page === query || 
+                       item.sumerian.toLowerCase().includes(query) || 
+                       item.akkadian.toLowerCase().includes(query) || 
+                       item.meaning.includes(query) || 
+                       item.phonetics.some(p => p.includes(query)) ||
+                       item.sign === query;
+            });
+            renderLibrary(filtered);
+        }
+
+        window.onload = () => renderLibrary(libraryData);
+    } catch(e) {
+        document.getElementById('counter').innerText = "حدث خطأ فني أثناء التحميل: " + e.message;
+    }
 </script>
 
 </body>
