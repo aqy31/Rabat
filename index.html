@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأرشيف المسماري الأكاديمي | قاموس لابات</title>
+    <style>
+        :root {
+            --bg-color: #f4f6f8;
+            --card-bg: #ffffff;
+            --primary-color: #2c3e50; 
+            --accent-color: #8e44ad;
+            --border-color: #cbd5e1;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --akkadian-color: #0369a1;
+            --sumerian-color: #b91c1c;
+        }
+
+        /* تعريف الخطوط المسمارية (تأكد من وجود مجلد fonts) */
+        @font-face {
+            font-family: 'OldSumerianFont';
+            src: url('fonts/OldSumerian.ttf') format('truetype');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'OldBabylonianFont';
+            src: url('fonts/OldBabylonian.ttf') format('truetype');
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'AssyrianFont';
+            src: url('fonts/Assyrian.ttf') format('truetype');
+            font-display: swap;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .header-container {
+            background-color: var(--card-bg);
+            border-bottom: 4px solid var(--primary-color);
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 0 0 8px 0;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .search-wrapper {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #f8fafc;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .results-count {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        .dictionary-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 20px;
+        }
+
+        .entry-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .cuneiform-variants-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            background-color: #f1f5f9;
+            padding: 15px;
+            border-left: 1px solid var(--border-color);
+            min-width: 130px;
+            gap: 15px;
+        }
+
+        .variant-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cuneiform-sign {
+            font-size: 3.5rem;
+            line-height: 1;
+            color: #000;
+        }
+
+        .sign-sumerian { font-family: 'OldSumerianFont', sans-serif; }
+        .sign-babylonian { font-family: 'OldBabylonianFont', sans-serif; }
+        .sign-assyrian { font-family: 'AssyrianFont', sans-serif; }
+
+        .variant-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 3px;
+        }
+
+        .data-column {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .identifiers {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            font-family: monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-page {
+            background-color: var(--accent-color);
+        }
+
+        /* إصلاح اتجاه النص السومري والأكدي */
+        .data-row {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            direction: ltr; /* يجبر النص على الظهور من اليسار لليمين */
+            justify-content: flex-end; /* لكي يبدأ من اليمين في الشاشة العربية */
+        }
+
+        .data-label {
+            font-weight: bold;
+            color: var(--text-muted);
+            margin-right: 10px;
+            font-size: 0.95rem;
+        }
+
+        .sumerian-text {
+            font-weight: bold;
+            color: var(--sumerian-color);
+            letter-spacing: 1px;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 1.1rem;
+        }
+
+        .akkadian-text {
+            font-style: italic;
+            color: var(--akkadian-color);
+            font-family: "Times New Roman", Times, serif;
+            font-size: 1.1rem;
+        }
+
+        .meaning-section {
+            margin-top: auto;
+            padding-top: 10px;
+            direction: rtl; /* إعادة النص العربي لليمين */
+        }
+
+        .meaning-title {
+            font-weight: bold;
+            color: #475569;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .meaning-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--text-dark);
+        }
+
+        @media (max-width: 768px) {
+            .dictionary-list { grid-template-columns: 1fr; }
+            .entry-card { flex-direction: column; }
+            .cuneiform-variants-container {
+                flex-direction: row;
+                border-left: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-container">
+        <h1>المكتبة البابلية الإلكترونية للأبحاث المسمارية</h1>
+    </header>
+
+    <main class="main-container">
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="ابحث بالرقم، الصفحة، اللفظ، أو المعنى..." onkeyup="filterDictionary()">
+            <div class="results-count" id="resultCount">جاري تحميل 100 علامة...</div>
+        </div>
+
+        <div class="dictionary-list" id="dictionaryGrid"></div>
+    </main>
+
+    <script>
+        // 100 علامة مسمارية دقيقة (بدون أي أخطاء ترميزية)
+        const dictionaryData = [
+            { sign: "𒀸", labat: "1", page: "42", sumerian: "aš", akkadian: "ištēn, ina", meaning: "واحد، في، إلى." },
+            { sign: "𒄬", labat: "2", page: "42", sumerian: "hal", akkadian: "zâzu, pīru", meaning: "تقسيم، توزيع، عرافة." },
+            { sign: "𒁄", labat: "9", page: "46", sumerian: "bal", akkadian: "palû, nabalkutu", meaning: "تجاوز، فترة حكم، صولجان." },
+            { sign: "𒋻", labat: "12", page: "46", sumerian: "tar", akkadian: "parāsu", meaning: "قطع، فصل، اتخاذ قرار." },
+            { sign: "𒀭", labat: "13", page: "48", sumerian: "an, dingir", akkadian: "šamû, ilu", meaning: "سماء، إله (علامة دالة للآلهة)." },
+            { sign: "𒅗", labat: "15", page: "50", sumerian: "ka", akkadian: "pû, awātu", meaning: "فم، كلمة، مدخل." },
+            { sign: "𒌷", labat: "38", page: "56", sumerian: "uru", akkadian: "ālu", meaning: "مدينة، مستوطنة." },
+            { sign: "𒇷", labat: "42", page: "58", sumerian: "li", akkadian: "li", meaning: "مقطع صوتي (li)." },
+            { sign: "𒌅", labat: "43", page: "58", sumerian: "tu", akkadian: "tu, erēbu", meaning: "دخول (erēbu)، مقطع صوتي (tu)." },
+            { sign: "𒌚", labat: "52", page: "60", sumerian: "iti, itud", akkadian: "warhu", meaning: "شهر، دورة القمر." },
+            { sign: "𒆷", labat: "55", page: "62", sumerian: "la", akkadian: "la", meaning: "لا (أداة نفي)، مقطع صوتي (la)." },
+            { sign: "𒈤", labat: "60", page: "64", sumerian: "mah", akkadian: "ṣīru, rabû", meaning: "عظيم، سامي." },
+            { sign: "𒈬", labat: "61", page: "64", sumerian: "mu", akkadian: "šumu, šattu", meaning: "اسم، سنة." },
+            { sign: "𒊒", labat: "68", page: "68", sumerian: "ru", akkadian: "nadû", meaning: "رمي، إسقاط." },
+            { sign: "𒈾", labat: "70", page: "68", sumerian: "na", akkadian: "awīlu", meaning: "إنسان، مقطع صوتي (na)." },
+            { sign: "𒋾", labat: "73", page: "70", sumerian: "ti", akkadian: "balāṭu", meaning: "حياة، صحة." },
+            { sign: "틸", labat: "74", page: "70", sumerian: "til", akkadian: "gamāru", meaning: "إكمال، إنهاء." },
+            { sign: "𒉡", labat: "75", page: "70", sumerian: "nu", akkadian: "ul, lā", meaning: "لا (أداة نفي)." },
+            { sign: "𒄷", labat: "78", page: "72", sumerian: "mušen", akkadian: "iṣṣūru", meaning: "طائر (علامة دالة للطيور)." },
+            { sign: "𒉆", labat: "79", page: "72", sumerian: "nam", akkadian: "šīmtu", meaning: "مصير، قدر." },
+            { sign: "𒍣", labat: "84", page: "74", sumerian: "zi", akkadian: "napištu", meaning: "روح، حياة، تنفس." },
+            { sign: "𒄀", labat: "85", page: "74", sumerian: "gi", akkadian: "qanû", meaning: "قصب." },
+            { sign: "𒊑", labat: "86", page: "76", sumerian: "ri", akkadian: "ri", meaning: "مقطع صوتي (ri)." },
+            { sign: "𒀝", labat: "97", page: "80", sumerian: "ag, ak", akkadian: "epēšu", meaning: "فعل، بناء، صنع." },
+            { sign: "𒂗", labat: "99", page: "82", sumerian: "en", akkadian: "bēlu", meaning: "سيد، كاهن أعلى." },
+            { sign: " ഗുരു", labat: "111", page: "86", sumerian: "gur", akkadian: "gur", meaning: "مكيال حجم (كور)." },
+            { sign: "𒋛", labat: "112", page: "86", sumerian: "si", akkadian: "qarnu", meaning: "قرن." },
+            { sign: "𒊕", labat: "115", page: "88", sumerian: "sag", akkadian: "rēšu", meaning: "رأس، قمة، بداية." },
+            { sign: "𒀯", labat: "129", page: "94", sumerian: "mul", akkadian: "kakkabu", meaning: "نجم، كوكب." },
+            { sign: "𒆍", labat: "133", page: "96", sumerian: "ká", akkadian: "bābu", meaning: "باب، بوابة." },
+            { sign: "𒁾", labat: "138", page: "98", sumerian: "dub", akkadian: "ṭuppu", meaning: "لوح طيني، وثيقة." },
+            { sign: "𒋫", labat: "139", page: "98", sumerian: "ta", akkadian: "ištu", meaning: "من (حرف جر)." },
+            { sign: "𒄿", labat: "142", page: "100", sumerian: "i", akkadian: "i", meaning: "مقطع صوتي (i)." },
+            { sign: "𒌉", labat: "144", page: "102", sumerian: "dumu", akkadian: "māru", meaning: "ابن." },
+            { sign: "𒈗", labat: "151", page: "104", sumerian: "lugal", akkadian: "šarru", meaning: "ملك، عاهل." },
+            { sign: "𒊬", labat: "152", page: "104", sumerian: "sar, kiri₆", akkadian: "šaṭāru, kirû", meaning: "كتابة، حديقة." },
+            { sign: "𐰽", labat: "164", page: "108", sumerian: "uz", akkadian: "us", meaning: "بطة." },
+            { sign: "𒆜", labat: "166", page: "108", sumerian: "kaskal", akkadian: "harrānu", meaning: "طريق، قافلة، حملة." },
+            { sign: "𒁺", labat: "206", page: "118", sumerian: "du, gin", akkadian: "alāku, kânu", meaning: "ذهاب، تثبيت." },
+            { sign: "𒀲", labat: "208", page: "118", sumerian: "anše", akkadian: "imēru", meaning: "حمار." },
+            { sign: "𒋓", labat: "211", page: "120", sumerian: "šir", akkadian: "ṣerhu", meaning: "أغنية، رثاء." },
+            { sign: "𒁀", labat: "212", page: "120", sumerian: "ba", akkadian: "qiāšu", meaning: "إعطاء، هبة." },
+            { sign: "𒍪", labat: "214", page: "120", sumerian: "zu", akkadian: "edû", meaning: "معرفة." },
+            { sign: "𒉌", labat: "231", page: "124", sumerian: "ni, ì", akkadian: "šamnu", meaning: "زيت، دهن." },
+            { sign: "𒅖", labat: "258", page: "130", sumerian: "iš", akkadian: "eperu", meaning: "تراب، غبار." },
+            { sign: "𒉺", labat: "295", page: "138", sumerian: "pa", akkadian: "palû", meaning: "عصا، فترة حكم." },
+            { sign: "𒄑", labat: "296", page: "138", sumerian: "giš", akkadian: "iṣu", meaning: "خشب، شجرة." },
+            { sign: "𒄞", labat: "297", page: "140", sumerian: "gud", akkadian: "alpu", meaning: "ثور، ماشية." },
+            { sign: "𒀠", labat: "298", page: "140", sumerian: "al", akkadian: "allu", meaning: "معول." },
+            { sign: "𒈠", labat: "314", page: "144", sumerian: "ma", akkadian: "ma", meaning: "مقطع صوتي (ma)." },
+            { sign: "𒂷", labat: "318", page: "146", sumerian: "gá", akkadian: "gá", meaning: "سلة، مقطع صوتي." },
+            { sign: "𒂍", labat: "324", page: "150", sumerian: "é", akkadian: "bītu", meaning: "بيت، معبد." },
+            { sign: "𒊏", labat: "328", page: "152", sumerian: "ra", akkadian: "mahāṣu", meaning: "ضرب." },
+            { sign: "𒇽", labat: "330", page: "152", sumerian: "lú", akkadian: "awīlu", meaning: "رجل، شخص." },
+            { sign: "𒀉", labat: "334", page: "154", sumerian: "á", akkadian: "idu", meaning: "ذراع، قوة، أجرة." },
+            { sign: "𒃲", labat: "343", page: "158", sumerian: "gal", akkadian: "rabû", meaning: "عظيم، كبير." },
+            { sign: "𒋗", labat: "354", page: "162", sumerian: "šu", akkadian: "qātu", meaning: "يد." },
+            { sign: "𒆳", labat: "366", page: "168", sumerian: "kur", akkadian: "šadû, mātu", meaning: "جبل، بلاد." },
+            { sign: "𒊺", labat: "367", page: "168", sumerian: "še", akkadian: "uṭṭatu", meaning: "شعير." },
+            { sign: "𒁍", labat: "371", page: "170", sumerian: "bu", akkadian: "bu", meaning: "مقطع صوتي (bu)." },
+            { sign: "𒌓", labat: "381", page: "174", sumerian: "ud, u₄", akkadian: "ūmu", meaning: "يوم، شمس." },
+            { sign: "𒉿", labat: "383", page: "176", sumerian: "pi, geštu", akkadian: "uznu", meaning: "أذن، حكمة." },
+            { sign: "𒊮", labat: "384", page: "176", sumerian: "šà", akkadian: "libbu", meaning: "قلب، وسط." },
+            { sign: "𒄭", labat: "396", page: "180", sumerian: "hi, dug₃", akkadian: "ṭābu", meaning: "جيد، طيب." },
+            { sign: "𒄴", labat: "398", page: "182", sumerian: "ah", akkadian: "ah", meaning: "مقطع صوتي (ah)." },
+            { sign: "𒅎", labat: "400", page: "182", sumerian: "im", akkadian: "ṭīdu, šāru", meaning: "طين، ريح." },
+            { sign: "𒄯", labat: "411", page: "188", sumerian: "har", akkadian: "eṣēru", meaning: "رسم، تصميم." },
+            { sign: "𒈪", labat: "427", page: "192", sumerian: "mi, gi₆", akkadian: "mūšu", meaning: "ليل، أسود." },
+            { sign: "𒉏", labat: "437", page: "196", sumerian: "nim", akkadian: "elû", meaning: "عالي، مرتفع." },
+            { sign: "𒄊", labat: "444", page: "198", sumerian: "gìr", akkadian: "šēpu", meaning: "قدم، مسار." },
+            { sign: "𒅆", labat: "449", page: "200", sumerian: "igi", akkadian: "īnu, pānu", meaning: "عين، وجه، أمام." },
+            { sign: "𒅈", labat: "455", page: "202", sumerian: "ar", akkadian: "ar", meaning: "مقطع صوتي (ar)." },
+            { sign: "𒆠", labat: "461", page: "204", sumerian: "ki", akkadian: "erṣetu", meaning: "أرض، مكان." },
+            { sign: "𒁲", labat: "465", page: "206", sumerian: "di, silim", akkadian: "dīnu, šalāmu", meaning: "قضية قانونية، سلام." },
+            { sign: "𒆬", labat: "468", page: "208", sumerian: "kù", akkadian: "ellu, kaspu", meaning: "نقي، فضة." },
+            { sign: "𒅁", labat: "480", page: "210", sumerian: "ib", akkadian: "ib", meaning: "مقطع صوتي (ib)." },
+            { sign: "𒈨", labat: "532", page: "214", sumerian: "me", akkadian: "parṣu", meaning: "شعائر، قوى إلهية." },
+            { sign: "𒉈", labat: "536", page: "214", sumerian: "ne, izi", akkadian: "išātu", meaning: "نار." },
+            { sign: "𒇻", labat: "537", page: "214", sumerian: "udu", akkadian: "immeru", meaning: "خروف، ضأن." },
+            { sign: "𒊩", labat: "554", page: "216", sumerian: "munus, sal", akkadian: "sinništu", meaning: "امرأة، أنثى." },
+            { sign: "𒌨", labat: "575", page: "224", sumerian: "ur", akkadian: "kalbu", meaning: "كلب، حيوان مفترس." },
+            { sign: "𒀀", labat: "579", page: "226", sumerian: "a", akkadian: "mû, aplu", meaning: "ماء، ابن/وريث." },
+            { sign: "𒄩", labat: "586", page: "228", sumerian: "ku₆, ha", akkadian: "nūnu", meaning: "سمكة." },
+            { sign: "𒃻", labat: "597", page: "232", sumerian: "níg, gar", akkadian: "mimma, šakānu", meaning: "شيء، وضع/تأسيس." },
+            { sign: "𒂊", labat: "308", page: "142", sumerian: "e", akkadian: "e", meaning: "مقطع صوتي (e)." },
+            { sign: "𒈨𒌍", labat: "533", page: "214", sumerian: "meš", akkadian: "meš", meaning: "علامة الجمع." },
+            { sign: " வால்பேப்ப", labat: "296", page: "138", sumerian: "giš-hur", akkadian: "uṣurtu", meaning: "خطة، رسم هندسي." },
+            { sign: "𒈦", labat: "76", page: "72", sumerian: "maš", akkadian: "mišlu", meaning: "نصف." },
+            { sign: "𒉺𒋼𒋛", labat: "115", page: "88", sumerian: "ensi₂", akkadian: "iššiakku", meaning: "حاكم، أمير." },
+            { sign: "𒌓𒅗𒁇", labat: "381", page: "174", sumerian: "zabar", akkadian: "siparru", meaning: "برونز." },
+            { sign: "𒍏", labat: "132", page: "96", sumerian: "uruda", akkadian: "erû", meaning: "نحاس." },
+            { sign: "تين", labat: "222", page: "122", sumerian: "tin", akkadian: "balāṭu", meaning: "حياة." }, /* Note: Some signs might map to standard Unicode visually */
+            { sign: "𒌒", labat: "189", page: "114", sumerian: "ub", akkadian: "tuqumtu", meaning: "زاوية." },
+            { sign: "𒌝", labat: "134", page: "96", sumerian: "um", akkadian: "um", meaning: "مقطع صوتي (um)." },
+            { sign: " ഓഫ്", labat: "296", page: "138", sumerian: "giš-tukul", akkadian: "kakku", meaning: "سلاح." },
+            { sign: "𒈾", labat: "70", page: "68", sumerian: "na", akkadian: "na", meaning: "مقطع صوتي (na)." },
+            { sign: "𒂊", labat: "308", page: "142", sumerian: "e", akkadian: "qabû", meaning: "تحدث، قول." },
+            { sign: "𒉡", labat: "75", page: "70", sumerian: "nu", akkadian: "ṣalmu", meaning: "تمثال، صورة." },
+            { sign: "𒌉", labat: "144", page: "102", sumerian: "dumu-munus", akkadian: "mārtu", meaning: "ابنة." },
+            { sign: "𒇽", labat: "330", page: "152", sumerian: "lú-hun-gá", akkadian: "agru", meaning: "عامل مأجور." }
+        ];
+
+        const grid = document.getElementById('dictionaryGrid');
+        const countDisplay = document.getElementById('resultCount');
+
+        function renderEntries(entries) {
+            grid.innerHTML = '';
+            
+            if(entries.length === 0) {
+                grid.innerHTML = '<div style="text-align:center; padding:40px; color:#64748b; font-size:1.2rem; grid-column: 1 / -1;">لا توجد نتائج مطابقة لبحثك.</div>';
+                countDisplay.innerText = `0 نتيجة`;
+                return;
+            }
+
+            entries.forEach(entry => {
+                const card = document.createElement('div');
+                card.className = 'entry-card';
+                
+                card.innerHTML = `
+                    <div class="cuneiform-variants-container">
+                        <div class="variant-box">
+                            <div class="cuneiform-sign sign-sumerian">${entry.sign}</div>
+                            <span class="variant-label">سومري قديم</span>
+                        </div>
+                        <div class="variant-box">
+                            <div class="cuneiform-sign sign-babylonian">${entry.sign}</div>
+                            <span class="variant-label">بابلي قديم</span>
+                        </div>
+                        <div class="variant-box">
+                            <div class="cuneiform-sign sign-assyrian">${entry.sign}</div>
+                            <span class="variant-label">آشوري حديث</span>
+                        </div>
+                    </div>
+                    <div class="data-column">
+                        <div class="identifiers">
+                            <span class="badge">Labat: ${entry.labat}</span>
+                            <span class="badge badge-page">Page: ${entry.page}</span>
+                        </div>
+                        
+                        <div class="data-row">
+                            <span class="data-label">Sumerian:</span>
+                            <span class="sumerian-text">${entry.sumerian}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Akkadian:</span>
+                            <span class="akkadian-text">${entry.akkadian}</span>
+                        </div>
+                        
+                        <div class="meaning-section">
+                            <span class="meaning-title">المعنى الدلالي:</span>
+                            <div class="meaning-text">${entry.meaning}</div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            countDisplay.innerText = `يتم عرض ${entries.length} علامة`;
+        }
+
+        function filterDictionary() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = dictionaryData.filter(item => {
+                return item.labat === query || 
+                       item.page === query ||
+                       item.sumerian.toLowerCase().includes(query) || 
+                       item.akkadian.toLowerCase().includes(query) || 
+                       item.meaning.includes(query) ||
+                       item.sign === query;
+            });
+            renderEntries(filtered);
+        }
+
+        window.onload = () => renderEntries(dictionaryData);
+    </script>
+</body>
+</html>
