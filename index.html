@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#5e2124">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manuel d'épigraphie akkadienne | Digital Archive</title>
@@ -435,6 +437,16 @@
         window.onload = () => renderLibrary(libraryData);
     } catch(e) {
         document.getElementById('counter').innerText = "حدث خطأ فني أثناء التحميل: " + e.message;
+    }
+</script>
+<script>
+    // كود تشغيل وضع الأوفلاين
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(registration => console.log('تم تفعيل وضع الأوفلاين بنجاح!'))
+                .catch(error => console.log('فشل تفعيل الأوفلاين:', error));
+        });
     }
 </script>
 
