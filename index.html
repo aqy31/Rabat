@@ -353,88 +353,112 @@
         const grid = document.getElementById('mainGrid');
         const counter = document.getElementById('counter');
 
-        function renderLibrary(data) {
-            grid.innerHTML = '';
-            data.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                
-                const periodTags = item.periods.map(p => `<span class="period-tag">${p}</span>`).join('');
-                const phoneticTags = item.phonetics.map(p => `<span class="phonetic-tag">${p}</span>`).join('');
+        // استخدام تقنية DocumentFragment لتسريع أداء المتصفح
+    function renderLibrary(data, isInitialLoad = false) {
+        const grid = document.getElementById('mainGrid');
+        grid.innerHTML = '';
+        
+        const fragment = document.createDocumentFragment();
+        
+        // إذا كان الفتح الأولي، نعرض 40 علامة فقط لكي يفتح الموقع في ثانية واحدة
+        const itemsToRender = isInitialLoad ? data.slice(0, 40) : data;
 
-                card.innerHTML = `
-                    <div class="visual-column">
-                        <div class="sign-variant">
-                            <div class="cuneiform sumerian-style">${item.sign}</div>
-                            <span class="variant-label">سومري قديم</span>
+        itemsToRender.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            const periodTags = item.periods.map(p => `<span class="period-tag">${p}</span>`).join('');
+            const phoneticTags = item.phonetics.map(p => `<span class="phonetic-tag">${p}</span>`).join('');
+
+            card.innerHTML = `
+                <div class="visual-column">
+                    <div class="sign-variant">
+                        <div class="cuneiform sumerian-style">${item.sign}</div>
+                        <span class="variant-label">سومري قديم</span>
+                    </div>
+                    <div class="sign-variant">
+                        <div class="cuneiform babylonian-style">${item.sign}</div>
+                        <span class="variant-label">بابلي قديم</span>
+                    </div>
+                    <div class="sign-variant">
+                        <div class="cuneiform assyrian-style">${item.sign}</div>
+                        <span class="variant-label">آشوري حديث</span>
+                    </div>
+                </div>
+                <div class="content-column">
+                    <div class="header-meta">
+                        <div><span class="meta-label">Labat:</span> <span class="meta-item">${item.labat}</span></div>
+                        <div><span class="meta-label">Page:</span> <span class="meta-item">${item.page}</span></div>
+                    </div>
+                    
+                    <div class="phonetics-box">
+                        <span class="phonetics-label">القيم الصوتية:</span>
+                        ${phoneticTags}
+                    </div>
+
+                    <div class="transliteration-box">
+                        <div class="trans-row">
+                            <span class="sum-val">${item.sumerian}</span>
+                            <span class="lang-label">Sumerian</span>
                         </div>
-                        <div class="sign-variant">
-                            <div class="cuneiform babylonian-style">${item.sign}</div>
-                            <span class="variant-label">بابلي قديم</span>
-                        </div>
-                        <div class="sign-variant">
-                            <div class="cuneiform assyrian-style">${item.sign}</div>
-                            <span class="variant-label">آشوري حديث</span>
+                        <div class="trans-row">
+                            <span class="akk-val">${item.akkadian}</span>
+                            <span class="lang-label">Akkadian</span>
                         </div>
                     </div>
-                    <div class="content-column">
-                        <div class="header-meta">
-                            <div><span class="meta-label">Labat:</span> <span class="meta-item">${item.labat}</span></div>
-                            <div><span class="meta-label">Page:</span> <span class="meta-item">${item.page}</span></div>
-                        </div>
-                        
-                        <div class="phonetics-box">
-                            <span class="phonetics-label">القيم الصوتية:</span>
-                            ${phoneticTags}
-                        </div>
-
-                        <div class="transliteration-box">
-                            <div class="trans-row">
-                                <span class="sum-val">${item.sumerian}</span>
-                                <span class="lang-label">Sumerian</span>
-                            </div>
-                            <div class="trans-row">
-                                <span class="akk-val">${item.akkadian}</span>
-                                <span class="lang-label">Akkadian</span>
-                            </div>
-                        </div>
-                        
-                        <div class="meaning-box">
-                            <span class="section-title">المعنى الدلالي</span>
-                            ${item.meaning}
-                        </div>
-                        
-                        <div class="vocabulary-box">
-                            <span class="section-title">أمثلة شائعة (Vocabulary)</span>
-                            ${item.words}
-                        </div>
-                        
-                        <div class="periods-box">
-                            <span class="section-title">عصور التدوين (Attestations)</span>
-                            <div class="period-tags">${periodTags}</div>
-                        </div>
+                    
+                    <div class="meaning-box">
+                        <span class="section-title">المعنى الدلالي</span>
+                        ${item.meaning}
                     </div>
-                `;
-                grid.appendChild(card);
-            });
-            counter.innerText = `يتم عرض ${data.length} علامة مسمارية (تم التحميل بنجاح)`;
+                    
+                    <div class="vocabulary-box">
+                        <span class="section-title">أمثلة شائعة (Vocabulary)</span>
+                        ${item.words}
+                    </div>
+                    
+                    <div class="periods-box">
+                        <span class="section-title">عصور التدوين (Attestations)</span>
+                        <div class="period-tags">${periodTags}</div>
+                    </div>
+                </div>
+            `;
+            fragment.appendChild(card);
+        });
+        
+        grid.appendChild(fragment);
+        
+        const counter = document.getElementById('counter');
+        if (isInitialLoad) {
+            counter.innerText = `يعرض 40 علامة لسرعة التصفح (استخدم البحث للوصول لـ ${libraryData.length} علامة)`;
+        } else {
+            counter.innerText = `تم العثور على ${data.length} نتيجة`;
+        }
+    }
+
+    function filterData() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        
+        // إذا مسح المستخدم مربع البحث، أعد عرض 40 علامة فقط
+        if (query === "") {
+            renderLibrary(libraryData, true);
+            return;
         }
 
-        function filterData() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            const filtered = libraryData.filter(item => {
-                return item.labat === query || 
-                       item.page === query || 
-                       item.sumerian.toLowerCase().includes(query) || 
-                       item.akkadian.toLowerCase().includes(query) || 
-                       item.meaning.includes(query) || 
-                       item.phonetics.some(p => p.includes(query)) ||
-                       item.sign === query;
-            });
-            renderLibrary(filtered);
-        }
+        const filtered = libraryData.filter(item => {
+            return item.labat === query || 
+                   item.page === query || 
+                   item.sumerian.toLowerCase().includes(query) || 
+                   item.akkadian.toLowerCase().includes(query) || 
+                   item.meaning.includes(query) || 
+                   item.phonetics.some(p => p.includes(query)) ||
+                   item.sign === query;
+        });
+        renderLibrary(filtered, false);
+    }
 
-        window.onload = () => renderLibrary(libraryData);
+    // عند التشغيل الأولي نعطيه (true) ليعرض جزءاً من البيانات فقط
+    window.onload = () => renderLibrary(libraryData, true);
     } catch(e) {
         document.getElementById('counter').innerText = "حدث خطأ فني أثناء التحميل: " + e.message;
     }
